@@ -6,11 +6,12 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc -p tsconfig.json && cp -R prompts rules dist/",
+    "build": "tsc -p tsconfig.json && cp -R prompts rules dist/ && mkdir -p dist/db && cp -R src/db/migrations dist/db/",
     "start": "node dist/index.js",
     "cli": "tsx src/cli.ts",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "web": "node dist/web.js"
   },
   "dependencies": {
     "better-sqlite3": "^11.7.0",
@@ -19,7 +20,8 @@
     "pino": "^9.5.0",
     "ulid": "^2.3.0",
     "yaml": "^2.6.1",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "dompurify": "^3.2.3"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
@@ -28,5 +30,8 @@
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

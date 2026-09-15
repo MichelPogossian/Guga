@@ -1,0 +1,33 @@
+# Blueprint Render — mode web de démonstration de Guga (connecteur simulé, IA désactivée).
+# Hors périmètre du CDC (mono-poste) : sert uniquement à présenter l'interface et le moteur.
+services:
+  - type: web
+    name: guga-demo
+    runtime: node
+    plan: starter            # un disque persistant exige un plan payant ; « free » fonctionne sans disque (données perdues au redéploiement)
+    region: frankfurt        # hébergement UE
+    buildCommand: npm ci --workspace engine && npm run build --workspace engine
+    startCommand: npm run web --workspace engine
+    healthCheckPath: /healthz
+    autoDeploy: true
+    disk:
+      name: guga-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: GUGA_DATA_DIR
+        value: /var/data
+      - key: GUGA_CONNECTOR
+        value: fake
+      - key: GUGA_AI_ENABLED
+        value: "0"
+      - key: GUGA_DB_ENCRYPTION
+        value: "0"
+      - key: GUGA_API_PORT
+        value: "8765"
+      - key: GUGA_WEB_USER
+        value: guga
+      - key: GUGA_WEB_PASSWORD
+        sync: false            # à saisir dans le tableau de bord Render au premier déploiement

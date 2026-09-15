@@ -80,3 +80,8 @@ l'application Electron gère les secrets via `safeStorage` (DPAPI) ; l'installeu
   d'intention → journal, page Journal avec vérification de chaîne, Paramètres, État.
 - Non vérifié ici : service Windows, SQLCipher, installeur NSIS, connecteur Graph sur un vrai tenant, LLM (Ollama trop
   lent sans GPU sur ce poste ; le pipeline a été validé sans LLM et le chemin LLM est couvert par le schéma zod).
+
+## Démonstration hébergée (Render)
+`render.yaml` déploie un **mode web de démonstration** (connecteur simulé, IA désactivée, HTTP Basic) : voir
+[docs/render.md](docs/render.md). Ce mode est hors périmètre du CDC (exécution mono-poste) et ne doit jamais recevoir
+de données réelles du cabinet.
