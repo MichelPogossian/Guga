@@ -1,0 +1,31 @@
+{
+  "name": "@guga/app",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Guga — application bureau (Electron, HTML/CSS/JS natifs)",
+  "main": "main.js",
+  "scripts": {
+    "vendor": "node scripts/vendor.js",
+    "start": "npm run vendor && electron .",
+    "dist": "npm run vendor && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.3"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "fr.thelis.guga",
+    "productName": "Guga",
+    "directories": { "output": "../dist-installer" },
+    "files": ["main.js", "preload.js", "renderer/**/*", "!renderer/vendor/.gitkeep"],
+    "extraResources": [
+      { "from": "../engine/dist", "to": "engine" },
+      { "from": "../tools", "to": "tools" }
+    ],
+    "win": { "target": ["nsis"] },
+    "nsis": { "oneClick": false, "perMachine": true, "allowToChangeInstallationDirectory": true }
+  }
+}

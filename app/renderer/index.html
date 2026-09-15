@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self' http://127.0.0.1:* blob: data:; connect-src 'none'">
+<title>Guga</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Guga<span>.</span></div>
+  <nav class="views" id="nav">
+    <button data-view="board" class="on">Tableau</button>
+    <button data-view="alerts">Alertes <b id="nav-alerts" hidden></b></button>
+    <button data-view="settings">Paramètres</button>
+    <button data-view="audit">Journal</button>
+    <button data-view="status">État</button>
+  </nav>
+  <div class="search">
+    <input id="global-search" type="search" placeholder="Rechercher dans toutes les colonnes ( / )" autocomplete="off">
+  </div>
+  <div class="tools">
+    <button id="btn-call" title="Notifier un appel (Ctrl+Alt+A)">☎ Appel</button>
+    <button id="btn-sync" title="Synchroniser maintenant">⟳</button>
+    <span id="conn" class="conn" title="État de la connexion au moteur">●</span>
+  </div>
+</header>
+<div id="banner" class="banner" hidden></div>
+<main id="main"></main>
+<guga-context-menu id="ctx"></guga-context-menu>
+<div id="toasts" class="toasts"></div>
+<dialog id="confirm">
+  <form method="dialog">
+    <h3 id="confirm-title">Confirmer</h3>
+    <p id="confirm-text"></p>
+    <label id="confirm-input-wrap" hidden><span id="confirm-input-label"></span><input id="confirm-input" type="text"></label>
+    <menu><button value="cancel">Annuler</button><button value="ok" id="confirm-ok" class="primary">Confirmer</button></menu>
+  </form>
+</dialog>
+<script src="vendor/purify.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

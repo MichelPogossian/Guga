@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "guga-engine", "runtimeExecutable": "npm", "runtimeArgs": ["run", "engine"], "port": 8765 },
+    { "name": "guga-web", "runtimeExecutable": "node", "runtimeArgs": ["app/scripts/dev-web.js"], "port": 8790 }
+  ]
+}

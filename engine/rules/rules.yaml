@@ -1,0 +1,92 @@
+# Règles déterministes de classement (CDC §6.1 étape 3). Éditables depuis Paramètres.
+# Chaque règle ajoute `score` à la colonne `column` si sa condition est vraie.
+# Conditions disponibles : header_present, header_matches, from_domain, from_role, subject_matches,
+# body_matches, has_secure_link, attachment_matches, mailbox_kind, user_position.
+version: 3
+firm_domain: cabinet-exemple.fr
+case_ref_pattern: "\\b(20\\d{2})-(\\d{4})\\b"
+rules:
+  - id: pubs.list_unsubscribe
+    column: PUBS
+    score: 0.9
+    when: { header_present: list-unsubscribe }
+  - id: pubs.precedence_bulk
+    column: PUBS
+    score: 0.6
+    when: { header_matches: { name: precedence, pattern: "^(bulk|list|junk)$" } }
+  - id: pubs.marketing_words
+    column: PUBS
+    score: 0.5
+    when: { subject_matches: "(newsletter|webinaire|webinar|promo|-\\d{1,2}\\s?%|offre spéciale|inscrivez-vous|découvrez)" }
+  - id: pubs.noreply
+    column: PUBS
+    score: 0.25
+    when: { from_matches: "^(no-?reply|newsletter|promo|marketing|info)@" }
+
+  - id: instr.partner
+    column: INSTR_ASSOC
+    score: 0.9
+    when: { from_role: partner, user_position: to }
+  - id: instr.associate
+    column: INSTR_COLLAB
+    score: 0.9
+    when: { from_role: associate, user_position: to }
+
+  - id: rib.keywords
+    column: RIB
+    score: 0.95
+    when: { any_matches: "\\b(rib\\s+carpa|carpa|sous-compte|e-?carpa)\\b" }
+  - id: plaidoirie.keywords
+    column: PLAIDOIRIE
+    score: 0.9
+    when: { any_matches: "dossier de plaidoirie|préparer [^.\\n]{0,40}plaidoirie" }
+  - id: plaidoirie.instruction
+    column: PLAIDOIRIE
+    score: 0.6
+    when: { any_matches: "\\bplaidoirie\\b", user_position: to }
+
+  - id: procedure.acts
+    column: PROCEDURE
+    score: 0.7
+    when: { any_matches: "\\b(signifi(e|é|cation)|constitution|ordonnance de clôture|clôture|conclusions n°|délai pour conclure|mise en état|injonction|appel interjeté)\\b" }
+  - id: procedure.clerk
+    column: PROCEDURE
+    score: 0.5
+    when: { from_role: clerk }
+
+  - id: nouveaux.assignation
+    column: NOUVEAUX
+    score: 0.85
+    when: { any_matches: "\\b(assignation|nouveau dossier|nouveau litige|mise en demeure|ouvrir un (nouveau )?dossier|prise en charge)\\b" }
+  - id: nouveaux.rcs
+    column: NOUVEAUX
+    score: 0.4
+    when: { body_matches: "\\bRCS\\b\\s+[A-Za-zÀ-ÿ-]+\\s+\\d{3}\\s?\\d{3}\\s?\\d{3}" }
+
+  - id: pieces.secure_link
+    column: PIECES
+    score: 0.85
+    when: { has_secure_link: true }
+  - id: pieces.words
+    column: PIECES
+    score: 0.5
+    when: { any_matches: "\\b(pièces? (adverses?|communiquées?)|lien de téléchargement|télécharg|bordereau)\\b" }
+
+  - id: expertise.expert
+    column: EXPERTISE
+    score: 0.85
+    when: { from_role: expert }
+  - id: expertise.words
+    column: EXPERTISE
+    score: 0.6
+    when: { any_matches: "\\b(expertise|expert judiciaire|accedit|dires?|pré-rapport|rapport d'expertise)\\b" }
+
+  - id: claire.compta
+    column: CLAIRE
+    score: 0.7
+    when: { any_matches: "\\b(facture|relevé|honoraires|virement|règlement|avoir|note de frais|comptab)\\w*" , mailbox_kind: shared }
+
+  - id: cc.opponent
+    column: CC
+    score: 0.6
+    when: { user_position: cc }

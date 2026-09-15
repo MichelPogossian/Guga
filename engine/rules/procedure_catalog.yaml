@@ -1,0 +1,45 @@
+# Catalogue de motifs procéduraux (§7.8) — à enrichir lors de l'atelier avec le cabinet.
+# delay: nombre ; unit: calendar | business ; from: reception (date de l'e-mail)
+patterns:
+  - kind: signification_conclusions
+    label: Signification de conclusions
+    match: "signifi(?:e|é|ons|cation)[^.\\n]{0,80}conclusions|conclusions[^.\\n]{0,40}signifi"
+    delay: 15
+    unit: business
+    legal_basis: "Calendrier de mise en état — délai indicatif pour conclure en réponse (à confirmer avec l'avocat)"
+  - kind: assignation
+    label: Assignation délivrée
+    match: "\\bassignation\\b"
+    delay: 15
+    unit: calendar
+    legal_basis: "Art. 763 CPC — constitution d'avocat dans les 15 jours de l'assignation"
+  - kind: constitution_adverse
+    label: Constitution d'avocat adverse
+    match: "\\bconstitution\\b(?!.*de partie civile)"
+    delay: null
+    legal_basis: "Information : constitution d'un confrère ; vérifier la mise en état"
+  - kind: cloture
+    label: Ordonnance de clôture annoncée
+    match: "ordonnance de cl[oô]ture|cl[oô]ture (?:de l'instruction|est envisagée|au)"
+    delay: 0
+    unit: calendar
+    legal_basis: "Art. 802 CPC — irrecevabilité des conclusions après clôture"
+    date_from_text: true
+  - kind: appel
+    label: Déclaration d'appel
+    match: "déclaration d'appel|appel interjeté|a interjeté appel"
+    delay: 3
+    unit: months
+    legal_basis: "Art. 908 CPC — conclusions de l'appelant dans les 3 mois"
+  - kind: jugement
+    label: Notification de jugement
+    match: "notification (?:du|de) jugement|jugement (?:rendu|notifié)"
+    delay: 1
+    unit: months
+    legal_basis: "Art. 538 CPC — délai d'appel d'un mois à compter de la notification"
+  - kind: injonction
+    label: Injonction de conclure
+    match: "injonction de conclure"
+    delay: null
+    legal_basis: "Art. 780 CPC — délai fixé par le juge de la mise en état (voir texte)"
+    date_from_text: true

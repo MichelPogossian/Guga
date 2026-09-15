@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-installer/
+*.log
+.DS_Store
+data/
+engine/dist/
+app/renderer/vendor/*.js

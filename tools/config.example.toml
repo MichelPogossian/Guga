@@ -1,0 +1,35 @@
+# Guga — paramètres non secrets (%LOCALAPPDATA%\Guga\config.toml). Les secrets (jeton Graph, clé Pappers)
+# sont stockés via DPAPI / safeStorage et jamais dans ce fichier (§10.2).
+connector = "graph"          # fake | graph | imap (imap : repli prévu D1, non livré)
+
+[api]
+port = 8765
+
+[sync]
+interval_minutes = 2
+history_years = 3            # D4
+
+[firm]
+domain = "cabinet-exemple.fr"
+user_addresses = ["assistante@cabinet-exemple.fr"]
+accounting_address = "compta@cabinet-exemple.fr"
+
+[ai]
+enabled = true
+ollama_url = "http://127.0.0.1:11434"
+model = "qwen2.5:14b"        # 7B (Q4) si GPU < 12 Go, 3B en CPU
+embed_model = "bge-m3"
+timeout_ms = 120000
+external_enabled = false     # D5 — API externe pseudonymisée, désactivée par défaut
+
+[db]
+encryption = true            # SQLCipher via better-sqlite3-multiple-ciphers (Windows)
+
+[cache]
+attachment_retention_days = 90
+
+[rib]
+alert_days = 3
+
+[network]
+allowed_domains = ["graph.microsoft.com", "login.microsoftonline.com", "api.pappers.fr"]

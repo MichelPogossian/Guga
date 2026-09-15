@@ -1,0 +1,16 @@
+{
+  "name": "guga",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Guga — application locale de pilotage des e-mails du cabinet (moteur Node.js + application Electron)",
+  "workspaces": ["engine", "app"],
+  "scripts": {
+    "build": "npm run build -w engine",
+    "engine": "npm run dev -w engine",
+    "app": "npm run start -w app",
+    "cli": "npm run cli -w engine --",
+    "test": "npm test -w engine",
+    "lint": "npm run typecheck -w engine"
+  },
+  "engines": { "node": ">=20" }
+}
