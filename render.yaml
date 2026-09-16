@@ -4,21 +4,22 @@ services:
   - type: web
     name: guga-demo
     runtime: node
-    plan: starter            # un disque persistant exige un plan payant ; « free » fonctionne sans disque (données perdues au redéploiement)
+    plan: free               # démo sans disque persistant : la base SQLite est recréée à chaque déploiement.
+                             # Pour conserver les données : plan starter + bloc « disk » ci-dessous et GUGA_DATA_DIR=/var/data.
     region: frankfurt        # hébergement UE
     buildCommand: npm ci --workspace engine && npm run build --workspace engine
     startCommand: npm run web --workspace engine
     healthCheckPath: /healthz
     autoDeploy: true
-    disk:
-      name: guga-data
-      mountPath: /var/data
-      sizeGB: 1
+    # disk:
+    #   name: guga-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
     envVars:
       - key: NODE_VERSION
         value: "22"
       - key: GUGA_DATA_DIR
-        value: /var/data
+        value: /opt/render/project/data
       - key: GUGA_CONNECTOR
         value: fake
       - key: GUGA_AI_ENABLED
